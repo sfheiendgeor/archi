@@ -1,0 +1,309 @@
+{% extends 'template/base.html' %}
+{% load static %}
+{% block content %}
+
+
+
+<body>
+    <main class="py-2">
+        <ul class="nav nav-tabs">
+            <li class="nav-item">
+                <a href = "#sec1" class="nav-link active" data-toggle = "tab">長方形</a>
+            </li>
+            <li class="nav-item">
+                <a href = "#sec2"  class="nav-link " data-toggle = "tab">棒鋼</a>
+            </li>
+            <li class="nav-item">
+                <a href = "#sec3"  class="nav-link" data-toggle = "tab">角パイプ</a>
+            </li>
+            <li class="nav-item">
+                <a href = "#sec4"  class="nav-link" data-toggle = "tab">丸パイプ</a>
+            </li>
+            <li class="nav-item">
+                <a href = "#sec5"  class="nav-link" data-toggle = "tab">H鋼</a>
+            </li>
+            <li class="nav-item">
+                <a href = "#sec6"  class="nav-link" data-toggle = "tab">Lアングル</a>
+            </li>
+            <li class="nav-item">
+                <a href = "#sec7"  class="nav-link" data-toggle = "tab">溝形鋼</a>
+            </li>
+            <li class="nav-item">
+                <a href = "#sec8"  class="nav-link" data-toggle = "tab">任意断面</a>
+            </li>
+        </ul>
+        <p class = "text-dark mt-2"><font color = red>＊区間内に最大モーメント発生時は端部モーメントに0を入力</font></p>
+        
+
+
+
+        <div class="tab-content">
+                <div id="sec1" class="tab-pane active">
+                    <div class = "row">
+                        <div class = "col-sm">
+                            <body>
+                                <form action = "{% url 'IndexView' %}" method = "post">
+                                    {%csrf_token%}
+                                    <table class="table table-condensed">
+                                        {% for field in RectangleForm %}
+                                            <tr scope="row" >
+                                            <th>{{field.label}}</th>
+                                            <td>{{ field }}</td>
+                                            </tr>
+                                        {% endfor %}
+                                    </table>
+                                    <p><font color = "red">{{ RectangleForm.non_field_errors }}</font></p>
+                                    <div id="calculate_button">
+                                            <button  name="button_rectangle" class="btn btn-dark btn-lg btn-block">calculate</button>
+                                    </div>
+                                </form>
+                            </body>
+                        </div>
+                        <div class = "col-sm">
+                            <div class="pics">
+                                <img src={% static "Section/images/photo1.png" %} class="d-block mx-auto img-fluid w-75" alt=""/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            <div id="sec2" class="tab-pane">
+                <div class = "row">
+                    <div class = "col-sm">
+                        <body>
+                            <form action = "{%url 'IndexView' %}" method = "post">
+                                {%csrf_token%}
+                                <table class="table table-condensed">
+                                    {% for field in RoundForm %}
+                                        <tr>
+                                        <th>{{field.label}}</th>
+                                        <td>{{ field }}</td>
+                                        </tr>
+                                    {% endfor %}
+                                </table>
+                                <div id=calculate_button>
+                                    <button type="submit"  name = "button_round" class="btn btn-dark btn-lg btn-block">calculate</button>
+                                </div>
+                            </form>
+                        </body>
+                    </div>
+                    <div class = "col-sm">
+                        <img src={% static "Section/images/photo2.png" %} class="d-block mx-auto img-fluid w-75" alt="" />
+                    </div>
+                </div>
+            </div>
+
+            <div id="sec3" class="tab-pane">
+                <div class = "row">
+                    <div class = "col-sm">
+                        <body>
+                            <form action = "{%url 'IndexView' %}" method = "post">
+                                {%csrf_token%}
+                                <table class="table table-condensed">
+                                {% for field in SquarePipeForm %}
+                                    <tr>
+                                    <th>{{field.label}}</th>
+                                    <td>{{ field }}</td>
+                                    </tr>
+                                {% endfor %}
+                                </table>
+                                <div id=calculate_button>
+                                    <button  name = "button_squarepipe" class="btn btn-dark btn-lg btn-block">calculate</button>
+                                </div>
+                            </form>
+                        </body>
+                    </div>
+                    <div class = "col-sm">
+                        <img src={% static "Section/images/photo3.png" %} class="d-block mx-auto img-fluid width w-75" alt=""/>
+                    </div>
+                </div>
+            </div>
+
+            <div id="sec4" class="tab-pane">
+                <div class = "row">
+                    <div class = "col-sm">
+                        <body>
+                            <form action = "{%url 'IndexView' %}" method = "post">
+                                {%csrf_token%}
+                                <table class="table table-condensed">
+                                    {% for field in RoundPipeForm %}
+                                        <tr>
+                                        <th>{{field.label}}</th>
+                                        <td>{{ field }}</td>
+                                        </tr>
+                                    {% endfor %}
+                                </table>
+                                <p><font color = "red">{{ RoundPipeForm.non_field_errors }}</font></p>
+                                <div id=calculate_button>
+                                    <button  name = "button_roundpipe" class="btn btn-dark btn-lg btn-block">calculate</button>
+                                </div>
+                            </form>
+                        </body>
+                    </div>
+                    <div class = "col-sm">
+                        <img src={% static "Section/images/photo4.png" %} class="d-block mx-auto img-fluid w-75" alt=""/>
+                    </div>
+                </div>
+            </div>
+
+            <div id="sec5" class="tab-pane">
+                <div class = "row">
+                    <div class = "col-sm">
+                        <body>
+                            <form action = "{%url 'IndexView' %}" method = "post">
+                                {%csrf_token%}
+                                <table class="table table-condensed">
+                                    {% for field in HsectionForm %}
+                                        <tr>
+                                        <th>{{field.label}}</th>
+                                        <td>{{ field }}</td>
+                                        </tr>
+                                    {% endfor %}
+                                </table>
+                                <div id=calculate_button>
+                                <button  name = "button_hsection" class="btn btn-dark btn-lg btn-block">calculate</button>
+                                </div>
+                            </form>
+                        </body>
+                    </div>
+                    <div class = "col-sm">
+                        <img src={% static "Section/images/photo5.png" %} class="d-block mx-auto img-fluid w-75" alt=""/>
+                    </div>
+                </div>
+            </div>
+
+            <div id="sec6" class="tab-pane">
+                <div class = "row">
+                    <div class = "col-sm">
+                        <body>
+                            <form action = "{%url 'IndexView' %}" method = "post">
+                                {%csrf_token%}
+                                <table class="table table-condensed">
+                                    {% for field in LsectionForm %}
+                                        <tr>
+                                        <th>{{field.label}}</th>
+                                        <td>{{ field }}</td>
+                                        </tr>
+                                    {% endfor %}
+                                </table>
+                                <div id=calculate_button>
+                                <button  name = "button_Lsection" class="btn btn-dark btn-lg btn-block">calculate</button>
+                                </div>
+                            </form>
+                        </body>
+                    </div>
+                    <div class = "col-sm">
+                        <img src={% static "Section/images/photo6.png" %} class="d-block mx-auto img-fluid w-75" alt=""/>
+                    </div>
+                </div>
+            </div>
+
+
+            <div id="sec7" class="tab-pane">
+                <div class = "row">
+                    <div class = "col-sm">
+                        <body>
+                            <form action = "{%url 'IndexView' %}" method = "post">
+                                {%csrf_token%}
+                                <table class="table table-condensed">
+                                    {% for field in CsectionForm %}
+                                        <tr>
+                                        <th>{{field.label}}</th>
+                                        <td>{{ field }}</td>
+                                        </tr>
+                                    {% endfor %}
+                                </table>
+                                <div id=calculate_button>
+                                <button  name = "button_Csection" class="btn btn-dark btn-lg btn-block">calculate</button>
+                                </div>
+                            </form>
+                        </body>
+                    </div>
+                    <div class = "col-sm">
+                        <img src={% static "Section/images/photo7.png" %} class="d-block mx-auto img-fluid w-75" alt=""/>
+                    </div>
+                </div>
+            </div>
+
+            <div id="sec8" class="tab-pane">
+                <div class = "row">
+                    <div class = "col-sm">
+                        <body>
+                            <p>＊開断面の場合は曲げねじり定数を入力</p>
+                            <form action = "{%url 'IndexView' %}" method = "post">
+                                {%csrf_token%}
+                                <table class="table table-condensed">
+                                    {% for field in AnysectionForm %}
+                                        <tr>
+                                        <th>{{field.label}}</th>
+                                        <td>{{ field }}</td>
+                                        </tr>
+                                    {% endfor %}
+                                </table>
+                                <div id=calculate_button>
+                                <button  name = "button_anysection" class="btn btn-dark btn-lg btn-block">calculate</button>
+                                </div>
+                            </form>
+                        </body>
+                    </div>
+                    <div class = "col-sm">
+                        <img src={% static "Section/images/photo8.png" %} class="d-block mx-auto img-fluid w-50" alt=""/>
+                    </div>
+                </div>
+            </div>
+
+            <div id="asneu">
+                <div class = "row" style = "margin-top:15px">
+                    <div class = "col-sm">
+                        <table class = "table">
+                            <thead class = "thead-dark">
+                                <tr align = 'center' height = 40>
+                                    <th>断面性能</th><th>強軸</th><th>弱軸</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr align = 'center'>
+                                    <th scope= "row">断面二次モーメント mm^4</th><td>{{I_S}}</td><td>{{I_W}}</td>
+                                </tr>
+                                <tr align = 'center'>
+                                    <th scope= "row">断面係数 mm^3</th><td>{{Z_S}}</td><td>{{Z_W}}</td>
+                                </tr>
+                                <tr align = 'center'>
+                                    <th scope= "row">面積 mm^2</th><td colspan = 2 >{{area}}</td>
+                                </tr>
+                                <tr align = 'center'>
+                                    <th scope= "row">サンブナンねじり定数 mm^4</th><td colspan = 2>{{torsionalconstant}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class = "col-sm">
+                        <table class="table">
+                            <thead class = "thead-dark">
+                                <tr align = 'center' height = 40>
+                                    <th>許容応力度(MPa)</th><th>長期</th><th>短期</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr align = 'center'>
+                                    <th scope="row">引張り</th><td>{{l_tension}}</td><td>{{s_tension}}</td>
+                                </tr>
+                                <tr align = 'center'>
+                                    <th scope = "row">せん断</th><td>{{l_shear}}</td><td>{{s_shear}}</td>
+                                </tr>
+                                <tr align = 'center'>
+                                    <th scope= "row">圧縮</th><td>{{l_compression}}</td><td>{{s_compression}}</td>
+                                </tr>
+                                <tr align = 'center'>
+                                    <th scope= "row">曲げ</th><td>{{l_bend}}</td><td>{{s_bend}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+{% endblock %}

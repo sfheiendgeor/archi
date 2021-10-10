@@ -1,0 +1,251 @@
+{% extends 'template/base.html' %}
+{% load static %}
+{% block content %}
+
+
+
+<body>
+    <main class="p-1">
+        <ul id = 'mytabcontent' class="nav nav-tabs mb-4 ">
+            <li class="nav-item">
+                <a href = "#sec1" class="nav-link active" data-toggle = "tab">四辺/等分布荷重</a>
+            </li>
+            <li class="nav-item">
+                <a href = "#sec2"  class="nav-link " data-toggle = "tab">四辺/部分等分布荷重</a>
+            </li>
+            <li class="nav-item">
+                <a href = "#sec3"  class="nav-link" data-toggle = "tab">三辺</a>
+            </li>
+            <li class="nav-item">
+                <a href = "#sec4"  class="nav-link" data-toggle = "tab">二辺</a>
+            </li>
+            <li class="nav-item">
+                <a href = "#sec5"  class="nav-link" data-toggle = "tab">二辺支持単純矩形梁</a>
+            </li>
+            <li class="nav-item">
+                <a href = "#sec6"  class="nav-link" data-toggle = "tab">四点/正方形</a>
+            </li>
+            <li class="nav-item">
+                <a href = "#sec7"  class="nav-link" data-toggle = "tab">円形</a>
+            </li>
+        </ul>
+
+        <p><font color = red>＊単板の時はt2,t3,t4は入力しないでください</font></p>
+        <div class="tab-content">
+                <div id="sec1" class="tab-pane active">
+                    <div class = "row">
+                        <div class = "col-sm">
+                            <body>
+                                <form action = "{% url 'GlassdesignView' %}" method = "post">
+                                    {%csrf_token%}
+                                    <table class="table table-condensed">
+                                        {% for field in Equation1Form %}
+                                            <tr scope="row" >
+                                            <th>{{field.label}}</th>
+                                            <td>{{ field }}</td>
+                                            </tr>
+                                        {% endfor %}
+                                    </table>
+                                    <p><font color = "red">{{ Equation1Form.non_field_errors }}</font></p>
+                                    <div id="calculate_button">
+                                            <button  name="button_Equation1" class="btn btn-dark btn-lg btn-block">calculate</button>
+                                    </div>
+                                </form>
+                            </body>
+                        </div>
+                        <div class = "col-sm">
+                            <div class="pics">
+                                <img src={% static "glassdesign/images/1.png" %} class="d-block mx-auto img-fluid" alt=""/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            <div id="sec2" class="tab-pane">
+                <div class = "row">
+                    <div class = "col-sm">
+                        <body>
+                            <form action = "{%url 'GlassdesignView' %}" method = "post">
+                                {%csrf_token%}
+                                <table class="table table-condensed">
+                                    {% for field in Equation2Form %}
+                                        <tr>
+                                        <th>{{field.label}}</th>
+                                        <td>{{ field }}</td>
+                                        </tr>
+                                    {% endfor %}
+                                </table>
+                                <div id=calculate_button>
+                                    <button type="submit"  name = "button_Equation2" class="btn btn-dark btn-lg btn-block">calculate</button>
+                                </div>
+                            </form>
+                        </body>
+                    </div>
+                    <div class = "col-sm">
+                        <img src={% static "glassdesign/images/2.png" %} class="d-block mx-auto img-fluid" alt="" />
+                    </div>
+                </div>
+            </div>
+
+            <div id="sec3" class="tab-pane">
+                <div class = "row">
+                    <div class = "col-sm">
+                        <body>
+                            <form action = "{%url 'GlassdesignView' %}" method = "post">
+                                {%csrf_token%}
+                                <table class="table table-condensed">
+                                {% for field in Equation3Form %}
+                                    <tr>
+                                    <th>{{field.label}}</th>
+                                    <td>{{ field }}</td>
+                                    </tr>
+                                {% endfor %}
+                                </table>
+                                <div id=calculate_button>
+                                    <button  name = "button_Equation3" class="btn btn-dark btn-lg btn-block">calculate</button>
+                                </div>
+                            </form>
+                        </body>
+                    </div>
+                    <div class = "col-sm">
+                        <img src={% static "glassdesign/images/3.png" %} class="d-block mx-auto img-fluid width " alt=""/>
+                    </div>
+                </div>
+            </div>
+
+            <div id="sec4" class="tab-pane">
+                {% for error in RoundPipeForm.non_field_errors %}
+                    <div class = "alert alert-danger">
+                        {{ error }}
+                    </div>
+                {% endfor %}
+                <div class = "row">
+                    <div class = "col-sm">
+                        <body>
+                            <form action = "{%url 'GlassdesignView' %}" method = "post">
+                                {%csrf_token%}
+                                <table class="table table-condensed">
+                                    {% for field in Equation4Form %}
+                                        <tr>
+                                        <th>{{field.label}}</th>
+                                        <td>{{ field }}</td>
+                                        </tr>
+                                    {% endfor %}
+                                </table>
+                                <div id=calculate_button>
+                                    <button  name = "button_Equation4" class="btn btn-dark btn-lg btn-block">calculate</button>
+                                </div>
+                            </form>
+                        </body>
+                    </div>
+                    <div class = "col-sm">
+                        <img src={% static "glassdesign/images/4.png" %} class="d-block mx-auto img-fluid " alt=""/>
+                    </div>
+                </div>
+            </div>
+
+            <div id="sec5" class="tab-pane">
+                <div class = "row">
+                    <div class = "col-sm">
+                        <body>
+                            <form action = "{%url 'GlassdesignView' %}" method = "post">
+                                {%csrf_token%}
+                                <table class="table table-condensed">
+                                    {% for field in Equation5Form %}
+                                        <tr>
+                                        <th>{{field.label}}</th>
+                                        <td>{{ field }}</td>
+                                        </tr>
+                                    {% endfor %}
+                                </table>
+                                <div id=calculate_button>
+                                <button  name = "button_Equation5" class="btn btn-dark btn-lg btn-block">calculate</button>
+                                </div>
+                            </form>
+                        </body>
+                    </div>
+                    <div class = "col-sm">
+                        <img src={% static "glassdesign/images/5.png" %} class="d-block mx-auto img-fluid " alt=""/>
+                    </div>
+                </div>
+            </div>
+
+            <div id="sec6" class="tab-pane">
+                <div class = "row">
+                    <div class = "col-sm">
+                        <body>
+                            <form action = "{%url 'GlassdesignView' %}" method = "post">
+                                {%csrf_token%}
+                                <table class="table table-condensed">
+                                    {% for field in Equation6Form %}
+                                        <tr>
+                                        <th>{{field.label}}</th>
+                                        <td>{{ field }}</td>
+                                        </tr>
+                                    {% endfor %}
+                                </table>
+                                <div id=calculate_button>
+                                <button  name = "button_Equation6" class="btn btn-dark btn-lg btn-block">calculate</button>
+                                </div>
+                            </form>
+                        </body>
+                    </div>
+                    <div class = "col-sm">
+                        <img src={% static "glassdesign/images/6.png" %} class="d-block mx-auto img-fluid " alt=""/>
+                    </div>
+                </div>
+            </div>
+
+
+            <div id="sec7" class="tab-pane">
+                <div class = "row">
+                    <div class = "col-sm">
+                        <body>
+                            <form action = "{%url 'GlassdesignView' %}" method = "post">
+                                {%csrf_token%}
+                                <table class="table table-condensed">
+                                    {% for field in Equation7Form %}
+                                        <tr>
+                                        <th>{{field.label}}</th>
+                                        <td>{{ field }}</td>
+                                        </tr>
+                                    {% endfor %}
+                                </table>
+                                <div id=calculate_button>
+                                <button  name = "button_Equation7" class="btn btn-dark btn-lg btn-block">calculate</button>
+                                </div>
+                            </form>
+                        </body>
+                    </div>
+                    <div class = "col-sm">
+                        <img src={% static "glassdesign/images/7.png" %} class="d-block mx-auto img-fluid " alt=""/>
+                    </div>
+                </div>
+            </div>
+
+            <div id="asneu">
+                <div class = "row" style = "margin-top:15px">
+                    <div class = "col-sm">
+                        <table class = "table">
+                            <thead class = "thead-dark">
+                                <tr align = 'center' height = 40>
+                                    <th>計算結果</th><th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr align = 'center'>
+                                    <th scope= "row">最大応力度 MPa</th><td>{{sigma}}</td>
+                                </tr>
+                                <tr align = 'center'>
+                                    <th scope= "row">最大変位 mm</th><td>{{delta}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+{% endblock %}
