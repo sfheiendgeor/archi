@@ -148,7 +148,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 DEBUG = False
 
-'''try:
+try:
     from .local_settings import *
 except ImportError:
     pass
@@ -157,7 +157,7 @@ if not DEBUG:
     SECRET_KEY = os.environ['SECRET_KEY']
 
     import django_heroku
-    django_heroku.settings(locals())'''
+    django_heroku.settings(locals())
     
 #heroku用の追記
 db_from_env = dj_database_url.config(conn_max_age=600, ssl_require=True)
