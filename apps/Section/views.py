@@ -10,6 +10,13 @@ from decimal import Decimal, ROUND_HALF_DOWN
 
 from .models import  FB_data, R_data, I_data, H_data, LH_data, CT_data, C_data, RC_data, O_data, P_data, L_data
 
+
+@requires_csrf_token
+def my_customized_server_error(request, template_name='500.html'):
+    import sys
+    from django.views import debug
+    error_html = debug.technical_500_response(request, *sys.exc_info()).content
+    return HttpResponseServerError(error_html)
 # Create your views here.
 def deci(x):
     return Decimal(x).quantize(Decimal('0.01'), rounding = ROUND_HALF_DOWN)

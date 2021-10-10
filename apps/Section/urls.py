@@ -8,3 +8,4 @@ urlpatterns = [
     path('upload/', upload, name = 'upload'),
     path('list/', list.as_view(), name = 'list' ),
 ]
+handler500 = views.my_customized_server_error
