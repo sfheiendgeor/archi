@@ -7,11 +7,13 @@ import math
 import csv
 from decimal import Decimal, ROUND_HALF_DOWN
 
+from django.views.decorators.csrf import requires_csrf_token
+from django.http import HttpResponseServerError
 
 from .models import  FB_data, R_data, I_data, H_data, LH_data, CT_data, C_data, RC_data, O_data, P_data, L_data
 
 
-
+@requires_csrf_token
 def my_customized_server_error(request, template_name='500.html'):
     import sys
     from django.views import debug
