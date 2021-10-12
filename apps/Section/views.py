@@ -12,7 +12,8 @@ from django.http import HttpResponseServerError
 
 from .models import  FB_data, R_data, I_data, H_data, LH_data, CT_data, C_data, RC_data, O_data, P_data, L_data
 
-
+#デプロイ後にエラーが出たらこれをURLs.pyに追記するとエラー画面を表示できる
+#前回エラー時は存在しない画像をstaticで指定していたため
 @requires_csrf_token
 def my_customized_server_error(request, template_name='500.html'):
     import sys

@@ -14,9 +14,17 @@
 </head>
 
 <body>
-    <a>株価(AAPL)</a>
+    <a>長期許容圧縮応力度</a>
     {% autoescape off %}
-    {{ graph }}　
+    {{ graph1 }}　
+    <!-- HTMLコードの文字列が格納されたコンテキスト -->
+    {% endautoescape %}
+</body>
+
+<body>
+    <a>長期許容曲げ応力度</a>
+    {% autoescape off %}
+    {{ graph2 }}　
     <!-- HTMLコードの文字列が格納されたコンテキスト -->
     {% endautoescape %}
 </body>
