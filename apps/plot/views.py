@@ -22,13 +22,15 @@ class BacklingAllowance():
             self.Iw = 0
         else:
             self.Iw = Iw
-        
-        if M1 and M2 and M1 < M2:
+            
+
+        if not M1==None and M2==None and  M1 >= M2:
             self.M1 = M2 #M1のほうが大きい
             self.M2 = M1 #M2が小さいほう
         else:   
             self.M1 = M1
-            self.M2 = M2 
+            self.M2 = M2
+        
         self.doublecurve = doublecurve #複曲率
         
     def SR(self): #細長比
@@ -48,11 +50,11 @@ class BacklingAllowance():
             fc = 1/v*(1-0.4*(self.SR()/self.LSR())**2)*self.F
         else:
             fc= 0.277*((self.LSR()/self.SR())**2)*self.F
-        return fc
+        return round(fc,2)
     
     def BacklingBend(self): #曲げ座屈
         I_W = self.ability[1] #弱軸の断面二次モーメント
-        Z_W = self.ability[3] #弱軸の断面係数
+        Z_W = self.ability[2] #強軸の断面係数
         
         if self.M1 and self.M2: #支点間距離端部に最大曲げモーメントが発生する場合
             if self.doublecurve:
@@ -80,7 +82,7 @@ class BacklingAllowance():
         elif ELB < LambdaB:
             fb = 1/LambdaB**2*self.F/2.17
         
-        return fb
+        return round(fb,2)
     
     def main(self):
         return self.BacklingCompression(),self.BacklingBend()
@@ -127,10 +129,7 @@ class Rectangle_Ability():
         return ba.main()
 
 
-
-
 def index(request):
-    
     x = np.linspace(1, 100, 100)
     y = np.linspace(1, 100, 100)
 
