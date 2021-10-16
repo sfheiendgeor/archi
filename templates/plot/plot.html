@@ -2,8 +2,7 @@
 {% load static %}
 
 {% block content %}
-<!DOCTYPE html>
-<html lang="ja">
+
 
 <head>
     <meta charset="utf-8" />
@@ -13,8 +12,12 @@
     <meta content='width=device-width, initial-scale=1.0, shrink-to-fit=no' name='viewport' />
 </head>
 
+<div>
+    <img src={% static "plot/images/abstract.png" %} class="d-block mx-auto img-fluid w-75" alt="img"/>
+</div>
+
+
 <body>
-    <a>長期許容圧縮応力度</a>
     {% autoescape off %}
     {{ graph1 }}　
     <!-- HTMLコードの文字列が格納されたコンテキスト -->
@@ -22,7 +25,6 @@
 </body>
 
 <body>
-    <a>長期許容曲げ応力度</a>
     {% autoescape off %}
     {{ graph2 }}　
     <!-- HTMLコードの文字列が格納されたコンテキスト -->

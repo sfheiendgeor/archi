@@ -130,53 +130,49 @@ class Rectangle_Ability():
 
 
 def index(request):
-    x = np.linspace(1, 100, 100)
-    y = np.linspace(1, 100, 100)
+    x = np.linspace(1, 99, 50)
+    y = np.linspace(1, 99, 50)
 
     xx, yy = np.meshgrid(x, y) # 格子点となるx,y座標を作成。
 
-    p_list = []
+    c_list = []
     b_list = []
 
     for i in x:
         for j in y:
             r = Rectangle_Ability(i, j, 5000, 205000, 79000, 235) 
-            p,b = r.main()
-            p_list.append(p)
+            c,b = r.main()
+            c_list.append(c)
             b_list.append(b)
-    p_list = np.reshape(p_list,(100,100))
-    b_list = np.reshape(b_list,(100,100))
+    c_list = np.reshape(c_list,(50,50))
+    b_list = np.reshape(b_list,(50,50))
 
-    def plot_wireframe(xx, yy, z, color='#0066FF', linewidth=1):
+    def plot_wireframe(xx, yy, z):
         """ワイヤーフレームをプロットする"""
-        line_marker = dict(color=color, width=linewidth)
         lines = []
         for i, j, k in zip(xx, yy, z):
-            lines.append(go.Scatter3d(x=i, y=j, z=k, mode='lines', line=line_marker))
-            lines.append(go.Scatter3d(x=j, y=i, z=k, mode='lines', line=line_marker))
-            #lines.append(go.Scatter3d(x=j, y=i, z=-k, mode='lines', line=line_marker))
+            lines.append(go.Scatter3d(x=i, y=j, z=k, mode='lines', line=dict(color=k, width = 3)))
+            lines.append(go.Scatter3d(x=j, y=i, z=k, mode='lines', line=dict(color=k, width = 3)))
             
-        layout = go.Layout(showlegend=False)
+        layout = go.Layout(showlegend=True)
         return go.Figure(data=lines, layout=layout)
 
-    fig1 = plot_wireframe(xx, yy, p_list)
-    fig1.update_layout(margin=dict(l=10, r=10, b=10, t=10),width=1200,height=900,)
+    fig1 = plot_wireframe(xx, yy, c_list)
+    fig1.update_layout(margin=dict(l=10, r=10, b=10, t=10),width=1000,height=1000, template = 'plotly_dark')
     fig1.update_layout(title=dict(text='<b>長期許容圧縮応力度',
                                 font=dict(size=26,
                                         color='grey'),
                                 y=0.88))
-
-    plot_fig1 = fig1.to_html(fig1, include_plotlyjs=False)
-    
-    
     
     fig2 = plot_wireframe(xx, yy, b_list)
-    fig2.update_layout(margin=dict(l=10, r=10, b=10, t=10),width=1200,height=900,)
+    fig2.update_layout(margin=dict(l=10, r=10, b=10, t=10),width=1000,height=1000, template = 'plotly_dark')
     fig2.update_layout(title=dict(text='<b>長期許容曲げ応力度',
                                 font=dict(size=26,
                                         color='grey'),
                                 y=0.88))
 
+    plot_fig1 = fig1.to_html(fig1, include_plotlyjs=False)
     plot_fig2 = fig2.to_html(fig2, include_plotlyjs=False)
+    
     return render(request, "plot/plot.html", {"graph1": plot_fig1,
                                             "graph2": plot_fig2})
