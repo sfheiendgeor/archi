@@ -12,8 +12,8 @@ class SelectionForm(forms.Form):
     minZx = forms.FloatField(label = '強軸断面係数の最小値で検索',required = False, initial = 0, widget = widget)
 
 class RectangleForm(forms.Form):
-    height = forms.FloatField(label = "height(mm)", widget = widget)
-    width = forms.FloatField(label = "Width(mm)",widget = widget)
+    height = forms.FloatField(label = "H(mm)", widget = widget)
+    width = forms.FloatField(label = "B(mm)",widget = widget)
     Lb = forms.FloatField(label = "Lb(mm)",widget = widget)
     E = forms.FloatField(label = "E(ヤング係数)", initial = 205000,widget = widget)
     G = forms.FloatField(label = "G(横弾性係数)", initial = 79000,widget = widget)
@@ -39,8 +39,8 @@ class RoundForm(forms.Form):
     
     
 class SquarePipeForm(forms.Form):
-    height = forms.FloatField(label = "height(mm)",widget = widget)
-    width = forms.FloatField(label = "Width(mm)",widget = widget)
+    height = forms.FloatField(label = "H(mm)",widget = widget)
+    width = forms.FloatField(label = "B(mm)",widget = widget)
     th = forms.FloatField(label = "th(mm)",widget = widget)
     tw = forms.FloatField(label = "tw(mm)",widget = widget)
     Lb = forms.FloatField(label = "Lb(mm)",widget = widget)
@@ -87,7 +87,7 @@ class HsectionForm(forms.Form):
 
 
 class LsectionForm(forms.Form):
-    H = forms.FloatField(label = "Width(mm)",widget = widget)
+    H = forms.FloatField(label = "B(mm)",widget = widget)
     t = forms.FloatField(label = "t(mm)",widget = widget)
     Lb = forms.FloatField(label = "Lb(mm)",widget = widget)
     E = forms.FloatField(label = "E(ヤング係数)", initial = 205000,widget = widget)

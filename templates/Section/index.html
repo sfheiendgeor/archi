@@ -32,7 +32,7 @@
                 <a href = "#sec8"  class="nav-link" data-toggle = "tab">任意断面</a>
             </li>
         </ul>
-        <p class = "text-dark mt-2"><font color = red>＊区間内に最大モーメント発生時は端部モーメントに0を入力</font></p>
+        <p class = "text-dark mt-2"><font color = orange>＊区間内に最大モーメント発生時は端部モーメントに0を入力</font></p>
         
 
 
@@ -52,7 +52,7 @@
                                             </tr>
                                         {% endfor %}
                                     </table>
-                                    <p><font color = "red">{{ RectangleForm.non_field_errors }}</font></p>
+                                    <p><font color = "orange">{{ RectangleForm.non_field_errors }}</font></p>
                                     <div id="calculate_button">
                                             <button  name="button_rectangle" class="btn btn-dark btn-lg btn-block">calculate</button>
                                     </div>
@@ -68,190 +68,190 @@
                 </div>
 
 
-            <div id="sec2" class="tab-pane">
-                <div class = "row">
-                    <div class = "col-sm">
-                        <body>
-                            <form action = "{%url 'IndexView' %}" method = "post">
-                                {%csrf_token%}
-                                <table class="table table-condensed">
-                                    {% for field in RoundForm %}
+                <div id="sec2" class="tab-pane">
+                    <div class = "row">
+                        <div class = "col-sm">
+                            <body>
+                                <form action = "{%url 'IndexView' %}" method = "post">
+                                    {%csrf_token%}
+                                    <table class="table table-condensed">
+                                        {% for field in RoundForm %}
+                                            <tr>
+                                            <th>{{field.label}}</th>
+                                            <td>{{ field }}</td>
+                                            </tr>
+                                        {% endfor %}
+                                    </table>
+                                    <div id=calculate_button>
+                                        <button type="submit"  name = "button_round" class="btn btn-dark btn-lg btn-block">calculate</button>
+                                    </div>
+                                </form>
+                            </body>
+                        </div>
+                        <div class = "col-sm">
+                            <img src={% static "Section/images/photo2.png" %} class="d-block mx-auto img-fluid w-75" alt="" />
+                        </div>
+                    </div>
+                </div>
+
+                <div id="sec3" class="tab-pane">
+                    <div class = "row">
+                        <div class = "col-sm">
+                            <body>
+                                <form action = "{%url 'IndexView' %}" method = "post">
+                                    {%csrf_token%}
+                                    <table class="table table-condensed">
+                                    {% for field in SquarePipeForm %}
                                         <tr>
                                         <th>{{field.label}}</th>
                                         <td>{{ field }}</td>
                                         </tr>
                                     {% endfor %}
-                                </table>
-                                <div id=calculate_button>
-                                    <button type="submit"  name = "button_round" class="btn btn-dark btn-lg btn-block">calculate</button>
-                                </div>
-                            </form>
-                        </body>
-                    </div>
-                    <div class = "col-sm">
-                        <img src={% static "Section/images/photo2.png" %} class="d-block mx-auto img-fluid w-75" alt="" />
-                    </div>
-                </div>
-            </div>
-
-            <div id="sec3" class="tab-pane">
-                <div class = "row">
-                    <div class = "col-sm">
-                        <body>
-                            <form action = "{%url 'IndexView' %}" method = "post">
-                                {%csrf_token%}
-                                <table class="table table-condensed">
-                                {% for field in SquarePipeForm %}
-                                    <tr>
-                                    <th>{{field.label}}</th>
-                                    <td>{{ field }}</td>
-                                    </tr>
-                                {% endfor %}
-                                </table>
-                                <div id=calculate_button>
-                                    <button  name = "button_squarepipe" class="btn btn-dark btn-lg btn-block">calculate</button>
-                                </div>
-                            </form>
-                        </body>
-                    </div>
-                    <div class = "col-sm">
-                        <img src={% static "Section/images/photo3.png" %} class="d-block mx-auto img-fluid width w-75" alt=""/>
+                                    </table>
+                                    <div id=calculate_button>
+                                        <button  name = "button_squarepipe" class="btn btn-dark btn-lg btn-block">calculate</button>
+                                    </div>
+                                </form>
+                            </body>
+                        </div>
+                        <div class = "col-sm">
+                            <img src={% static "Section/images/photo3.png" %} class="d-block mx-auto img-fluid width w-75" alt=""/>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <div id="sec4" class="tab-pane">
-                <div class = "row">
-                    <div class = "col-sm">
-                        <body>
-                            <form action = "{%url 'IndexView' %}" method = "post">
-                                {%csrf_token%}
-                                <table class="table table-condensed">
-                                    {% for field in RoundPipeForm %}
-                                        <tr>
-                                        <th>{{field.label}}</th>
-                                        <td>{{ field }}</td>
-                                        </tr>
-                                    {% endfor %}
-                                </table>
-                                <p><font color = "red">{{ RoundPipeForm.non_field_errors }}</font></p>
-                                <div id=calculate_button>
-                                    <button  name = "button_roundpipe" class="btn btn-dark btn-lg btn-block">calculate</button>
-                                </div>
-                            </form>
-                        </body>
-                    </div>
-                    <div class = "col-sm">
-                        <img src={% static "Section/images/photo4.png" %} class="d-block mx-auto img-fluid w-75" alt=""/>
+                <div id="sec4" class="tab-pane">
+                    <div class = "row">
+                        <div class = "col-sm">
+                            <body>
+                                <form action = "{%url 'IndexView' %}" method = "post">
+                                    {%csrf_token%}
+                                    <table class="table table-condensed">
+                                        {% for field in RoundPipeForm %}
+                                            <tr>
+                                            <th>{{field.label}}</th>
+                                            <td>{{ field }}</td>
+                                            </tr>
+                                        {% endfor %}
+                                    </table>
+                                    <p><font color = "red">{{ RoundPipeForm.non_field_errors }}</font></p>
+                                    <div id=calculate_button>
+                                        <button  name = "button_roundpipe" class="btn btn-dark btn-lg btn-block">calculate</button>
+                                    </div>
+                                </form>
+                            </body>
+                        </div>
+                        <div class = "col-sm">
+                            <img src={% static "Section/images/photo4.png" %} class="d-block mx-auto img-fluid w-75" alt=""/>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <div id="sec5" class="tab-pane">
-                <div class = "row">
-                    <div class = "col-sm">
-                        <body>
-                            <form action = "{%url 'IndexView' %}" method = "post">
-                                {%csrf_token%}
-                                <table class="table table-condensed">
-                                    {% for field in HsectionForm %}
-                                        <tr>
-                                        <th>{{field.label}}</th>
-                                        <td>{{ field }}</td>
-                                        </tr>
-                                    {% endfor %}
-                                </table>
-                                <div id=calculate_button>
-                                <button  name = "button_hsection" class="btn btn-dark btn-lg btn-block">calculate</button>
-                                </div>
-                            </form>
-                        </body>
-                    </div>
-                    <div class = "col-sm">
-                        <img src={% static "Section/images/photo5.png" %} class="d-block mx-auto img-fluid w-75" alt=""/>
+                <div id="sec5" class="tab-pane">
+                    <div class = "row">
+                        <div class = "col-sm">
+                            <body>
+                                <form action = "{%url 'IndexView' %}" method = "post">
+                                    {%csrf_token%}
+                                    <table class="table table-condensed">
+                                        {% for field in HsectionForm %}
+                                            <tr>
+                                            <th>{{field.label}}</th>
+                                            <td>{{ field }}</td>
+                                            </tr>
+                                        {% endfor %}
+                                    </table>
+                                    <div id=calculate_button>
+                                    <button  name = "button_hsection" class="btn btn-dark btn-lg btn-block">calculate</button>
+                                    </div>
+                                </form>
+                            </body>
+                        </div>
+                        <div class = "col-sm">
+                            <img src={% static "Section/images/photo5.png" %} class="d-block mx-auto img-fluid w-75" alt=""/>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <div id="sec6" class="tab-pane">
-                <div class = "row">
-                    <div class = "col-sm">
-                        <body>
-                            <form action = "{%url 'IndexView' %}" method = "post">
-                                {%csrf_token%}
-                                <table class="table table-condensed">
-                                    {% for field in LsectionForm %}
-                                        <tr>
-                                        <th>{{field.label}}</th>
-                                        <td>{{ field }}</td>
-                                        </tr>
-                                    {% endfor %}
-                                </table>
-                                <div id=calculate_button>
-                                <button  name = "button_Lsection" class="btn btn-dark btn-lg btn-block">calculate</button>
-                                </div>
-                            </form>
-                        </body>
-                    </div>
-                    <div class = "col-sm">
-                        <img src={% static "Section/images/photo6.png" %} class="d-block mx-auto img-fluid w-75" alt=""/>
+                <div id="sec6" class="tab-pane">
+                    <div class = "row">
+                        <div class = "col-sm">
+                            <body>
+                                <form action = "{%url 'IndexView' %}" method = "post">
+                                    {%csrf_token%}
+                                    <table class="table table-condensed">
+                                        {% for field in LsectionForm %}
+                                            <tr>
+                                            <th>{{field.label}}</th>
+                                            <td>{{ field }}</td>
+                                            </tr>
+                                        {% endfor %}
+                                    </table>
+                                    <div id=calculate_button>
+                                    <button  name = "button_Lsection" class="btn btn-dark btn-lg btn-block">calculate</button>
+                                    </div>
+                                </form>
+                            </body>
+                        </div>
+                        <div class = "col-sm">
+                            <img src={% static "Section/images/photo6.png" %} class="d-block mx-auto img-fluid w-75" alt=""/>
+                        </div>
                     </div>
                 </div>
-            </div>
 
 
-            <div id="sec7" class="tab-pane">
-                <div class = "row">
-                    <div class = "col-sm">
-                        <body>
-                            <form action = "{%url 'IndexView' %}" method = "post">
-                                {%csrf_token%}
-                                <table class="table table-condensed">
-                                    {% for field in CsectionForm %}
-                                        <tr>
-                                        <th>{{field.label}}</th>
-                                        <td>{{ field }}</td>
-                                        </tr>
-                                    {% endfor %}
-                                </table>
-                                <div id=calculate_button>
-                                <button  name = "button_Csection" class="btn btn-dark btn-lg btn-block">calculate</button>
-                                </div>
-                            </form>
-                        </body>
-                    </div>
-                    <div class = "col-sm">
-                        <img src={% static "Section/images/photo7.png" %} class="d-block mx-auto img-fluid w-75" alt=""/>
+                <div id="sec7" class="tab-pane">
+                    <div class = "row">
+                        <div class = "col-sm">
+                            <body>
+                                <form action = "{%url 'IndexView' %}" method = "post">
+                                    {%csrf_token%}
+                                    <table class="table table-condensed">
+                                        {% for field in CsectionForm %}
+                                            <tr>
+                                            <th>{{field.label}}</th>
+                                            <td>{{ field }}</td>
+                                            </tr>
+                                        {% endfor %}
+                                    </table>
+                                    <div id=calculate_button>
+                                    <button  name = "button_Csection" class="btn btn-dark btn-lg btn-block">calculate</button>
+                                    </div>
+                                </form>
+                            </body>
+                        </div>
+                        <div class = "col-sm">
+                            <img src={% static "Section/images/photo7.png" %} class="d-block mx-auto img-fluid w-75" alt=""/>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <div id="sec8" class="tab-pane">
-                <div class = "row">
-                    <div class = "col-sm">
-                        <body>
-                            <p>＊開断面の場合は曲げねじり定数を入力</p>
-                            <form action = "{%url 'IndexView' %}" method = "post">
-                                {%csrf_token%}
-                                <table class="table table-condensed">
-                                    {% for field in AnysectionForm %}
-                                        <tr>
-                                        <th>{{field.label}}</th>
-                                        <td>{{ field }}</td>
-                                        </tr>
-                                    {% endfor %}
-                                </table>
-                                <div id=calculate_button>
-                                <button  name = "button_anysection" class="btn btn-dark btn-lg btn-block">calculate</button>
-                                </div>
-                            </form>
-                        </body>
-                    </div>
-                    <div class = "col-sm">
-                        
+                <div id="sec8" class="tab-pane">
+                    <div class = "row">
+                        <div class = "col-sm">
+                            <body>
+                                <p>＊開断面の場合は曲げねじり定数を入力</p>
+                                <form action = "{%url 'IndexView' %}" method = "post">
+                                    {%csrf_token%}
+                                    <table class="table table-condensed">
+                                        {% for field in AnysectionForm %}
+                                            <tr>
+                                            <th>{{field.label}}</th>
+                                            <td>{{ field }}</td>
+                                            </tr>
+                                        {% endfor %}
+                                    </table>
+                                    <div id=calculate_button>
+                                    <button  name = "button_anysection" class="btn btn-dark btn-lg btn-block">calculate</button>
+                                    </div>
+                                </form>
+                            </body>
+                        </div>
+                        <div class = "col-sm">
+                            
+                        </div>
                     </div>
                 </div>
-            </div>
 
             <div id="asneu">
                 <div class = "row" style = "margin-top:15px">
@@ -259,7 +259,7 @@
                         <table class = "table">
                             <thead class = "thead-dark">
                                 <tr align = 'center' height = 40>
-                                    <th>断面性能</th><th>強軸</th><th>弱軸</th>
+                                    <th>断面性能</th><th>強軸(x,u)</th><th>弱軸(y,v)</th>
                                 </tr>
                             </thead>
                             <tbody>

@@ -335,14 +335,13 @@ class L_Ability():
     
     def ability(self):
         #型を崩すと処理が使いまわせなくなるため強軸弱軸の形で書く
-        #現状強軸の値を使っていないので消してもよい
         H = self.H
         t = self.t
         area = self.Area()
         g = (t**2*H/2+(H-t)*t*((H-t)/2+t))/area
         #断面二次モーメント
         #ひし形の断面二次モーメントの引き算＞＞＞軸の移動で求める
-        #それぞれの断面二次モーメント
+        #大きいひし形のそれぞれの断面二次モーメント
         Ilerge = H**4/12
         Ismall = (H-t)**4/12
         #弱軸方向の引き算
@@ -352,10 +351,14 @@ class L_Ability():
 
         #強軸の計算
         I_S = Ilerge-Ismall
+        
+        #辺に平行な軸の計算
+        I_M = 1/3 * (t*(H-g)**3 + H*g**3 - (H-t) * (g - t)**3 )
 
         Z_S = I_S/(H/2**0.5)#ElasticModulus_断面係数
         Z_W = I_W/(g_diff+3/2**0.5)
-        return I_S, I_W, Z_S, Z_W
+        Z_M = I_M/(H-g)
+        return I_M, I_W, Z_M, Z_W
     
     def TorsionalConstant(self):
         H = self.H
