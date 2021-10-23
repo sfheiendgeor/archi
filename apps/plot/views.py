@@ -1,10 +1,10 @@
 from django.views.generic import TemplateView
-import plotly.graph_objects as go
 from django.shortcuts import render
-import pandas as pd
-
+import plotly.graph_objects as go
 from chart_studio.plotly import plot as py
-import plotly.graph_objs as go
+import plotly.express as px
+from .forms import UploadFileForm
+import pandas as pd
 import numpy as np
 import math
 
@@ -176,3 +176,46 @@ def index(request):
     
     return render(request, "plot/plot.html", {"graph1": plot_fig1,
                                             "graph2": plot_fig2})
+    
+    
+class WallPlot(TemplateView):
+    template_name = 'plot/wall.html'
+    fields = ()
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context.update({
+            'UploadFileForm' : UploadFileForm(),
+        })
+        return context
+        
+    def get(self, request):
+        context = self.get_context_data()
+        x = np.arange(100,2010,200)
+        z = np.arange(100,1010,200)
+
+        num_list = []
+        for i in x:
+            for j in z:
+                num_list.append([i,1,j])
+        
+        df_wall = pd.DataFrame(num_list,columns = ['x','y','z'])
+        
+        fig = px.scatter_3d(df_wall, x='x', y='y', z='z',opacity=0.7)
+        fig.update_layout(margin=dict(l=0, r=0, b=0, t=0),width=1000,height=1000,)
+        fig_sample=fig.to_html(fig,include_plotlyjs = False)
+        context['graph1'] = fig_sample
+        return render(request, "plot/wall.html",context)
+    
+    def post(self,request):
+        context = self.get_context_data()
+        upload_data = pd.read_csv(request.FILES['file'], names = ['x','y','z','color'], header = None)
+        
+        fig = px.scatter_3d(upload_data, x='x', y='y', z='z',color = 'color',opacity=0.7)
+        fig.update_layout(margin=dict(l=0, r=0, b=0, t=0),width=1000,height=1000,
+                        hoverlabel=dict(
+                            font_size=20,
+                        ))
+        fig_sample=fig.to_html(fig,include_plotlyjs = False)
+        context['graph1'] = fig_sample
+        return render(request, "plot/wall.html",context)
