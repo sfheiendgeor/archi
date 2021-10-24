@@ -198,11 +198,12 @@ class WallPlot(TemplateView):
         for i in x:
             for j in z:
                 num_list.append([i,1,j])
-        
+        random_number = np.random.rand(50)
         df_wall = pd.DataFrame(num_list,columns = ['x','y','z'])
+        df_wall['diff'] = random_number
         
-        fig = px.scatter_3d(df_wall, x='x', y='y', z='z',opacity=0.7)
-        fig.update_layout(margin=dict(l=0, r=0, b=0, t=0),width=1000,height=1000,)
+        fig = px.scatter_3d(df_wall, x='x', y='y', z='z' , color = 'diff', template = 'ggplot2')
+        fig.update_layout(margin=dict(l=0, r=0, b=20, t=20),width=1000,height=800,)
         fig_sample=fig.to_html(fig,include_plotlyjs = False)
         context['graph1'] = fig_sample
         return render(request, "plot/wall.html",context)
@@ -211,8 +212,8 @@ class WallPlot(TemplateView):
         context = self.get_context_data()
         upload_data = pd.read_csv(request.FILES['file'], names = ['x','y','z','color'], header = None)
         
-        fig = px.scatter_3d(upload_data, x='x', y='y', z='z',color = 'color',opacity=0.7)
-        fig.update_layout(margin=dict(l=0, r=0, b=0, t=0),width=1000,height=1000,
+        fig = px.scatter_3d(upload_data, x='x', y='y', z='z',color = 'color', template = 'ggplot2')
+        fig.update_layout(margin=dict(l=0, r=0, b=20, t=20),width=1000,height=800,
                         hoverlabel=dict(
                             font_size=20,
                         ))
