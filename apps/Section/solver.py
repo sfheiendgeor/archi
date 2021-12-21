@@ -201,7 +201,7 @@ class SquarePipe_Ability():
     
     
     def TorsionalConstant(self):
-        Ix = (2*self.ts*self.tl*(self.L-self.tl)**2*(self.S-self.ts)**2)/(self.S*self.ts*self.L*self.tl-self.ts**2-self.tl**2)
+        Ix = (2*self.ts*self.tl*(self.L-self.tl)**2*(self.S-self.ts)**2)/(self.S*self.ts+self.L*self.tl-self.ts**2-self.tl**2)
         return Ix
     
     def main(self):
