@@ -1,8 +1,8 @@
 from django.shortcuts import render
 from django.views.generic import TemplateView
 from io import TextIOWrapper, StringIO
-from .forms import SelectionForm, RectangleForm, RoundForm, SquarePipeForm, RoundPipeForm, HsectionForm, LsectionForm, CsectionForm, AnysectionForm
-from .solver import  Rectangle_Ability, Round_Ability, SquarePipe_Ability, RoundPipe_Ability, H_Ability,L_Ability,C_Ability, BacklingAllowance
+from .forms import SelectionForm, RectangleForm, RoundForm, SquarePipeForm,RoundPipeForm, HsectionForm, LsectionForm, CsectionForm, AnysectionForm
+from .solver import  Rectangle_Ability, Round_Ability, SquarePipe_Ability, RoundPipe_Ability, H_Ability,L_Ability,C_Ability,BacklingAllowanceST
 import math
 import csv
 from decimal import Decimal, ROUND_HALF_DOWN
@@ -20,7 +20,7 @@ def my_customized_server_error(request, template_name='500.html'):
     from django.views import debug
     error_html = debug.technical_500_response(request, *sys.exc_info()).content
     return HttpResponseServerError(error_html)
-# Create your views here.
+
 
 
 def deci(x):
@@ -41,7 +41,7 @@ class IndexView(TemplateView):
             'HsectionForm' : HsectionForm(),
             'LsectionForm' : LsectionForm(),
             'CsectionForm' : CsectionForm(),
-            'AnysectionForm': AnysectionForm(),
+            'AnysectionForm': AnysectionForm()
         })
         return context
     
@@ -55,6 +55,8 @@ class IndexView(TemplateView):
         F = float(request.POST['F'])
         M1 = float(request.POST['M1'])
         M2 = float(request.POST['M2'])
+        material = request.POST['material']
+        
 
         if "doublecurve" in request.POST:
             doublecurve = True
@@ -65,8 +67,9 @@ class IndexView(TemplateView):
             context['RectangleForm'] = RectangleForm(request.POST)
             height = float(request.POST['height'])
             width = float(request.POST['width'])
+
             
-            sectionability = Rectangle_Ability(height, width, lb, E, G, F, M1,M2,doublecurve)
+            sectionability = Rectangle_Ability(material, height, width, lb, E, G, F, M1,M2,doublecurve)
             area, ability, torsionalconstant, compression, bend = sectionability.main()
             
         if "button_round" in request.POST:
@@ -130,7 +133,7 @@ class IndexView(TemplateView):
             J = float(request.POST['J'])
             Iw= float(request.POST['Iw'])
             ability = [0,I,Z,0]
-            BA = BacklingAllowance(A,ability, J,lb,E,G,F,Iw,M1,M2,doublecurve)
+            BA = BacklingAllowanceST(A,ability, J,lb,E,G,F,Iw,M1,M2,doublecurve)
             area, ability, torsionalconstant, compression, bend = BA.main()
             
         context['area'] = deci(area)
@@ -148,6 +151,8 @@ class IndexView(TemplateView):
         context['s_tension'] = F
         context['l_shear'] = deci(F/(math.sqrt(3)*1.5))
         context['s_shear'] = deci(F/math.sqrt(3))
+        
+        
 
         return render(request, 'Section/index.html', context)
 
