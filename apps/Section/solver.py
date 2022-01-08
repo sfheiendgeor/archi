@@ -85,18 +85,20 @@ class BacklingAllowanceAL(BacklingAllowanceST):
             self.M2 = 0
 
     def BacklingCompression(self): #圧縮座屈
-        SSr = (self.ability[0])**0.5 #断面二次半径
+        SSr = (self.ability[1]/self.area)**0.5 #断面二次半径
         c_lambda = (self.lb/SSr)*(self.F/(math.pi**2 * self.E))**0.5
         c_lambda_p = 0.2
         c_lambda_e = 1/(0.5)**0.5
         v = 1.5+2/3*(c_lambda/c_lambda_e)**2
+        if v >= 2.17:
+            v = 2.17
 
         if c_lambda <= c_lambda_p:
             fc = self.F/v
         elif c_lambda_p < c_lambda <= c_lambda_e:
             fc = (1.0 - 0.5*(c_lambda - c_lambda_p)/(c_lambda_e - c_lambda_p)* self.F/v)
         else:
-            fc = 1*self.F / c_lambda**2/v
+            fc = 1*self.F / (c_lambda**2*v)
         return round(fc,2)
 
     def BacklingBend(self): #曲げ座屈
@@ -105,26 +107,26 @@ class BacklingAllowanceAL(BacklingAllowanceST):
         Z_S = self.ability[2] #強軸の断面係数
         Z_W = self.ability[3] #強軸の断面係数
         
-        if self.M2 == 0:
+        if self.M2 == 0 or self.M1 == 0:
             C = 1.75
         else:
             C = 1.75 + 1.05*(self.M2/self.M1)+0.3*(self.M2/self.M1)**2
-            if C > 2.3:
+            if C >= 2.3:
                 C = 2.3
         
-        My = self.F*Z_S #降伏モーメント
-        Me = C * (((math.pi**4 * self.E**2 * I_W * self.Iw) / (0.55*self.lb)**4) + (math.pi**4 * self.E * I_W * self.G * self.torsionalconstant)/(self.lb**2))**0.5
+        My = self.F*Z_S #降伏曲げモーメント
+        Me = C * (((math.pi**4 * self.E**2 * I_W * self.Iw) / (0.55*self.lb)**4) + (math.pi**2 * self.E * I_W * self.G * self.torsionalconstant)/(self.lb**2))**0.5
         
         
         b_lambda = (My/Me)**0.5
         
-        if self.M1 == 0 and self.M2 == 0:
-            b_lambda_p = 0.3
-            
+        if self.M1 == 0 or self.M2 == 0:
+            b_lambda_p = 0.6
         else:
             b_lambda_p = 0.6 + 0.3*(self.M2/self.M1)
         
         b_lambda_e = 1/(0.5)**0.5
+        
         v = 1.5+2/3*(b_lambda/b_lambda_e)**2
         
         if b_lambda <= b_lambda_p:
@@ -190,7 +192,8 @@ class Rectangle_Ability():
 #丸鋼
 class Round_Ability():
 
-    def __init__(self, D, lb, E, G, F, M1=None, M2=None, doublecurve = False):
+    def __init__(self,material, D, lb, E, G, F, M1=None, M2=None, doublecurve = False):
+        self.material = material
         self.D = D
         self.lb = lb
         self.E = E #ヤング係数
@@ -221,7 +224,11 @@ class Round_Ability():
         area = self.Area()
         ability = list(self.ability())
         torsionalconstant = self.TorsionalConstant()
-        ba = BacklingAllowanceST(area, ability, torsionalconstant, self.lb, self.E, self.G, self.F, self.M1, self.M2, self.doublecurve)
+        if self.material == 'steel':
+            ba = BacklingAllowanceST(area, ability, torsionalconstant, self.lb, self.E, self.G, self.F, self.M1, self.M2, self.doublecurve)
+        elif self.material =='aluminum':
+            ba = BacklingAllowanceAL(area, ability, torsionalconstant, self.lb, self.E, self.G, self.F, self.M1, self.M2, self.doublecurve)
+
         return ba.main()
 
 
@@ -231,7 +238,8 @@ class Round_Ability():
 
 #角型鋼管
 class SquarePipe_Ability():
-    def __init__(self, height, width, th, tw, lb, E, G, F, M1=None, M2=None, doublecurve = False):
+    def __init__(self,material, height, width, th, tw, lb, E, G, F, M1=None, M2=None, doublecurve = False):
+        self.material = material
         if height>width:
             self.L = height
             self.S = width
@@ -271,7 +279,10 @@ class SquarePipe_Ability():
         area = self.Area()
         ability = list(self.ability())
         torsionalconstant = self.TorsionalConstant()
-        ba = BacklingAllowanceST(area, ability, torsionalconstant, self.lb, self.E, self.G, self.F, self.M1, self.M2, self.doublecurve)
+        if self.material == 'steel':
+            ba = BacklingAllowanceST(area, ability, torsionalconstant, self.lb, self.E, self.G, self.F, self.M1, self.M2, self.doublecurve)
+        elif self.material =='aluminum':
+            ba = BacklingAllowanceAL(area, ability, torsionalconstant, self.lb, self.E, self.G, self.F, self.M1, self.M2, self.doublecurve)
         return ba.main()
 
 
@@ -282,7 +293,8 @@ class SquarePipe_Ability():
 
 #丸パイプ
 class RoundPipe_Ability():
-    def __init__(self, D, t, lb, E, G, F, M1=None, M2=None, doublecurve = False):
+    def __init__(self,material, D, t, lb, E, G, F, M1=None, M2=None, doublecurve = False):
+        self.material = material
         self.D = D
         self.t = t
         self.lb = lb
@@ -318,7 +330,10 @@ class RoundPipe_Ability():
         area = self.Area()
         ability = list(self.ability())
         torsionalconstant = self.TorsionalConstant()
-        ba = BacklingAllowanceST(area, ability, torsionalconstant, self.lb, self.E, self.G, self.F, self.M1, self.M2, self.doublecurve)
+        if self.material == 'steel':
+            ba = BacklingAllowanceST(area, ability, torsionalconstant, self.lb, self.E, self.G, self.F, self.M1, self.M2, self.doublecurve)
+        elif self.material =='aluminum':
+            ba = BacklingAllowanceAL(area, ability, torsionalconstant, self.lb, self.E, self.G, self.F, self.M1, self.M2, self.doublecurve)
         return ba.main()
 
 
@@ -328,7 +343,8 @@ class RoundPipe_Ability():
 
 #H鋼
 class H_Ability():
-    def __init__(self, H, B, tw, tf, lb, E, G, F, M1=None, M2=None, doublecurve = False):
+    def __init__(self,material, H, B, tw, tf, lb, E, G, F, M1=None, M2=None, doublecurve = False):
+        self.material = material
         self.H = H
         self.B = B
         self.tw = tw
@@ -372,14 +388,18 @@ class H_Ability():
         ability = list(self.ability())
         torsionalconstant = self.TorsionalConstant()
         bendconstant = self.BendConstant()
-        ba = BacklingAllowanceST(area, ability, torsionalconstant, self.lb, self.E, self.G, self.F,bendconstant, self.M1, self.M2, self.doublecurve)
+        if self.material == 'steel':
+            ba = BacklingAllowanceST(area, ability, torsionalconstant, self.lb, self.E, self.G, self.F, bendconstant, self.M1, self.M2, self.doublecurve)
+        elif self.material =='aluminum':
+            ba = BacklingAllowanceAL(area, ability, torsionalconstant, self.lb, self.E, self.G, self.F, bendconstant, self.M1, self.M2, self.doublecurve)
         return ba.main()
 
 
 
 #Lアングル
 class L_Ability():
-    def __init__(self, H, t, lb, E, G, F, M1=None, M2=None,doublecurve = False):
+    def __init__(self,material, H, t, lb, E, G, F, M1=None, M2=None,doublecurve = False):
+        self.material = material
         self.H = H
         self.t = t
         self.lb = lb
@@ -440,13 +460,17 @@ class L_Ability():
         ability = list(self.ability())
         torsionalconstant = self.TorsionalConstant()
         bendconstant = self.BendConstant()
-        ba = BacklingAllowanceST(area, ability, torsionalconstant, self.lb, self.E, self.G, self.F,bendconstant, self.M1, self.M2, self.doublecurve)
+        if self.material == 'steel':
+            ba = BacklingAllowanceST(area, ability, torsionalconstant, self.lb, self.E, self.G, self.F,bendconstant, self.M1, self.M2, self.doublecurve)
+        elif self.material =='aluminum':
+            ba = BacklingAllowanceAL(area, ability, torsionalconstant, self.lb, self.E, self.G, self.F,bendconstant, self.M1, self.M2, self.doublecurve)
         return ba.main()
 
 
 #みぞ形鋼
 class C_Ability():
-    def __init__(self, H, B, th, tb, lb, E, G, F, M1=None, M2=None,doublecurve = False):
+    def __init__(self,material, H, B, th, tb, lb, E, G, F, M1=None, M2=None,doublecurve = False):
+        self.material = material
         self.H = H
         self.B = B
         self.th = th
@@ -507,7 +531,10 @@ class C_Ability():
         ability = list(self.ability())
         torsionalconstant = self.TorsionalConstant()
         bendconstant = self.BendConstant()
-        ba = BacklingAllowanceST(area, ability, torsionalconstant, self.lb, self.E, self.G, self.F,bendconstant, self.M1, self.M2, self.doublecurve)
+        if self.material == 'steel':
+            ba = BacklingAllowanceST(area, ability, torsionalconstant, self.lb, self.E, self.G, self.F,bendconstant, self.M1, self.M2, self.doublecurve)
+        elif self.material =='aluminum':
+            ba = BacklingAllowanceAL(area, ability, torsionalconstant, self.lb, self.E, self.G, self.F,bendconstant, self.M1, self.M2, self.doublecurve)
         return ba.main()
 
 

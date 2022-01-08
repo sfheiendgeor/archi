@@ -2,7 +2,7 @@ from django import forms
 from django.core.exceptions import ValidationError
 from django.forms import RadioSelect
 
-widget = forms.NumberInput(attrs={'style': 'width:10ch',})
+widget = forms.NumberInput(attrs={'style': 'width:13ch',})
 
 def wrap_boolean_check(v):
     return not (v is False or v is None or v == '' or v == 0)
@@ -15,7 +15,7 @@ class SelectionForm(forms.Form):
     minZx = forms.FloatField(label = '強軸断面係数の最小値で検索',required = False, initial = 0, widget = widget)
 
 class RectangleForm(forms.Form):
-    material = forms.ChoiceField(choices=(('steel', 'steel'), ('aluminum', 'aluminum(WIP)')),widget=RadioSelect)
+    material = forms.ChoiceField(choices=(('steel', 'steel'), ('aluminum', 'aluminum')),widget=RadioSelect, initial = 'steel')
     height = forms.FloatField(label = "H(mm)", widget = widget)
     width = forms.FloatField(label = "B(mm)",widget = widget)
     Lb = forms.FloatField(label = "Lb(mm)",widget = widget)
@@ -33,7 +33,7 @@ class RectangleForm(forms.Form):
         return self.cleaned_data['M1']
     
 class RoundForm(forms.Form):
-    #material = forms.ChoiceField(choices=(('steel', 'steel'), ('aluminum', 'aluminum')),widget=RadioSelect)
+    material = forms.ChoiceField(choices=(('steel', 'steel'), ('aluminum', 'aluminum')),widget=RadioSelect, initial = 'steel')
     D = forms.FloatField(label = "D(mm)",widget = widget)
     Lb = forms.FloatField(label = "Lb(mm)",widget = widget)
     E = forms.FloatField(label = "E(ヤング係数)", initial = 205000,widget = widget)
@@ -45,7 +45,7 @@ class RoundForm(forms.Form):
     
     
 class SquarePipeForm(forms.Form):
-    #material = forms.ChoiceField(choices=(('steel', 'steel'), ('aluminum', 'aluminum')),widget=RadioSelect)
+    material = forms.ChoiceField(choices=(('steel', 'steel'), ('aluminum', 'aluminum')),widget=RadioSelect, initial = 'steel')
     height = forms.FloatField(label = "H(mm)",widget = widget)
     width = forms.FloatField(label = "B(mm)",widget = widget)
     th = forms.FloatField(label = "th(mm)",widget = widget)
@@ -60,7 +60,7 @@ class SquarePipeForm(forms.Form):
 
 
 class RoundPipeForm(forms.Form):
-    #material = forms.ChoiceField(choices=(('steel', 'steel'), ('aluminum', 'aluminum')),widget=RadioSelect)
+    material = forms.ChoiceField(choices=(('steel', 'steel'), ('aluminum', 'aluminum')),widget=RadioSelect, initial = 'steel')
     D = forms.FloatField(label = "D(mm)",widget = widget)
     t = forms.FloatField(label = "t(mm)",widget = widget)
     Lb = forms.FloatField(label = "Lb(mm)",widget = widget)
@@ -81,7 +81,7 @@ class RoundPipeForm(forms.Form):
 
     
 class HsectionForm(forms.Form):
-    #material = forms.ChoiceField(choices=(('steel', 'steel'), ('aluminum', 'aluminum')),widget=RadioSelect)
+    material = forms.ChoiceField(choices=(('steel', 'steel'), ('aluminum', 'aluminum')),widget=RadioSelect, initial = 'steel')
     H = forms.FloatField(label = "H(mm)",widget = widget)
     B = forms.FloatField(label = "B(mm)",widget = widget)
     tw = forms.FloatField(label = "tw(mm)",widget = widget)
@@ -96,7 +96,7 @@ class HsectionForm(forms.Form):
 
 
 class LsectionForm(forms.Form):
-    #material = forms.ChoiceField(choices=(('steel', 'steel'), ('aluminum', 'aluminum')),widget=RadioSelect)
+    material = forms.ChoiceField(choices=(('steel', 'steel'), ('aluminum', 'aluminum')),widget=RadioSelect, initial = 'steel')
     H = forms.FloatField(label = "B(mm)",widget = widget)
     t = forms.FloatField(label = "t(mm)",widget = widget)
     Lb = forms.FloatField(label = "Lb(mm)",widget = widget)
@@ -109,7 +109,7 @@ class LsectionForm(forms.Form):
 
 
 class CsectionForm(forms.Form):
-    #material = forms.ChoiceField(choices=(('steel', 'steel'), ('aluminum', 'aluminum')),widget=RadioSelect)
+    material = forms.ChoiceField(choices=(('steel', 'steel'), ('aluminum', 'aluminum')),widget=RadioSelect, initial = 'steel')
     H = forms.FloatField(label = "H(mm)",widget = widget)
     B = forms.FloatField(label = "B(mm)",widget = widget)
     th = forms.FloatField(label = "th(mm)",widget = widget)
@@ -124,7 +124,7 @@ class CsectionForm(forms.Form):
 
 
 class AnysectionForm(forms.Form):
-    #material = forms.ChoiceField(choices=(('steel', 'steel'), ('aluminum', 'aluminum')),widget=RadioSelect)
+    material = forms.ChoiceField(choices=(('steel', 'steel'), ('aluminum', 'aluminum')),widget=RadioSelect, initial = 'steel')
     A = forms.FloatField(label = "面積(mm^2)",widget = widget)
     I = forms.FloatField(label = "断面二次モーメント(弱軸, mm^4)",widget = widget)
     Z = forms.FloatField(label = "断面係数(強軸, mm^3)",widget = widget)

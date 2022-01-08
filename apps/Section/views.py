@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.views.generic import TemplateView
 from io import TextIOWrapper, StringIO
 from .forms import SelectionForm, RectangleForm, RoundForm, SquarePipeForm,RoundPipeForm, HsectionForm, LsectionForm, CsectionForm, AnysectionForm
-from .solver import  Rectangle_Ability, Round_Ability, SquarePipe_Ability, RoundPipe_Ability, H_Ability,L_Ability,C_Ability,BacklingAllowanceST
+from .solver import  Rectangle_Ability, Round_Ability, SquarePipe_Ability, RoundPipe_Ability, H_Ability,L_Ability,C_Ability,BacklingAllowanceST,BacklingAllowanceAL
 import math
 import csv
 from decimal import Decimal, ROUND_HALF_DOWN
@@ -68,7 +68,6 @@ class IndexView(TemplateView):
             height = float(request.POST['height'])
             width = float(request.POST['width'])
 
-            
             sectionability = Rectangle_Ability(material, height, width, lb, E, G, F, M1,M2,doublecurve)
             area, ability, torsionalconstant, compression, bend = sectionability.main()
             
@@ -76,7 +75,7 @@ class IndexView(TemplateView):
             context['RoundForm'] = RoundForm(request.POST)
             D = float(request.POST['D'])
             Iw = 0
-            sectionability = Round_Ability(D,lb, E, G, F,M1,M2,doublecurve)
+            sectionability = Round_Ability(material,D,lb, E, G, F,M1,M2,doublecurve)
             area, ability, torsionalconstant, compression, bend = sectionability.main()
             
         if "button_squarepipe" in request.POST:
@@ -86,7 +85,7 @@ class IndexView(TemplateView):
             th = float(request.POST['th'])
             tw = float(request.POST['tw'])
             Iw = 0
-            sectionability = SquarePipe_Ability(height,width,th,tw,lb, E, G, F,M1,M2,doublecurve)
+            sectionability = SquarePipe_Ability(material,height,width,th,tw,lb, E, G, F,M1,M2,doublecurve)
             area, ability, torsionalconstant, compression, bend = sectionability.main()
             
         if "button_roundpipe" in request.POST:
@@ -95,7 +94,7 @@ class IndexView(TemplateView):
             t = float(request.POST['t'])
             Iw = 0
             if D/2 > t:
-                sectionability = RoundPipe_Ability(D,t,lb, E, G, F,M1,M2,doublecurve)
+                sectionability = RoundPipe_Ability(material,D,t,lb, E, G, F,M1,M2,doublecurve)
                 area, ability, torsionalconstant, compression, bend = sectionability.main()
             else:
                 area, ability , torsionalconstant, compression, bend = 0,[0,0,0,0],0,0,0
@@ -106,14 +105,14 @@ class IndexView(TemplateView):
             B = float(request.POST['B'])
             tw = float(request.POST['tw'])
             tf = float(request.POST['tf'])
-            sectionability = H_Ability(H,B,tw,tf,lb, E, G, F,M1,M2,doublecurve)
+            sectionability = H_Ability(material,H,B,tw,tf,lb, E, G, F,M1,M2,doublecurve)
             area, ability, torsionalconstant, compression, bend = sectionability.main()
             
         if "button_Lsection" in request.POST:
             context['LsectionForm'] = LsectionForm(request.POST)
             H = float(request.POST['H'])
             t = float(request.POST['t'])
-            sectionability = L_Ability(H, t, lb, E, G, F,M1,M2,doublecurve)
+            sectionability = L_Ability(material,H, t, lb, E, G, F,M1,M2,doublecurve)
             area, ability, torsionalconstant, compression, bend = sectionability.main()
             
         if "button_Csection" in request.POST:
@@ -122,7 +121,7 @@ class IndexView(TemplateView):
             B = float(request.POST['B'])
             th = float(request.POST['th'])
             tb = float(request.POST['tb'])
-            sectionability = C_Ability(H, B, th,tb, lb, E, G, F,M1,M2,doublecurve)
+            sectionability = C_Ability(material,H, B, th,tb, lb, E, G, F,M1,M2,doublecurve)
             area, ability, torsionalconstant, compression, bend = sectionability.main()
             
         if "button_anysection" in request.POST:
@@ -133,7 +132,10 @@ class IndexView(TemplateView):
             J = float(request.POST['J'])
             Iw= float(request.POST['Iw'])
             ability = [0,I,Z,0]
-            BA = BacklingAllowanceST(A,ability, J,lb,E,G,F,Iw,M1,M2,doublecurve)
+            if material == 'steel':
+                BA = BacklingAllowanceST(A,ability, J,lb,E,G,F,Iw,M1,M2,doublecurve)
+            else:
+                BA = BacklingAllowanceAL(A,ability, J,lb,E,G,F,Iw,M1,M2,doublecurve)
             area, ability, torsionalconstant, compression, bend = BA.main()
             
         context['area'] = deci(area)
@@ -151,8 +153,6 @@ class IndexView(TemplateView):
         context['s_tension'] = F
         context['l_shear'] = deci(F/(math.sqrt(3)*1.5))
         context['s_shear'] = deci(F/math.sqrt(3))
-        
-        
 
         return render(request, 'Section/index.html', context)
 
