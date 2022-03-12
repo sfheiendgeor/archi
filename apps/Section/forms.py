@@ -93,6 +93,17 @@ class HsectionForm(forms.Form):
     M1 = forms.FloatField(label = "端部モーメント(大, N.mm)", widget = widget, required = True, initial=0)
     M2 = forms.FloatField(label = "端部モーメント(小, N.mm)", widget = widget, required = True, initial=0)
     doublecurve = forms.BooleanField(label = '曲げモーメントが複曲率', required = False,initial = 0, widget = forms.CheckboxInput(check_test=wrap_boolean_check))
+    
+    def clean(self):
+        data = super().clean()
+        H = float(data['H'])
+        B = float(data['B'])
+        tw = float(data['tw'])
+        tf = float(data['tf'])
+        if H < tf or B < tw:
+            raise ValidationError("厚みは高さ,幅より小さくしてください")
+        return data
+
 
 
 class LsectionForm(forms.Form):
@@ -106,6 +117,14 @@ class LsectionForm(forms.Form):
     M1 = forms.FloatField(label = "端部モーメント(大, N.mm)", widget = widget, required = True, initial=0)
     M2 = forms.FloatField(label = "端部モーメント(小, N.mm)", widget = widget, required = True, initial=0)
     doublecurve = forms.BooleanField(label = '曲げモーメントが複曲率', required = False,initial = 0, widget = forms.CheckboxInput(check_test=wrap_boolean_check))
+    
+    def clean(self):
+        data = super().clean()
+        B = float(data['H'])
+        t = float(data['t'])
+        if B < t:
+            raise ValidationError("厚みは高さより小さくしてください")
+        return data
 
 
 class CsectionForm(forms.Form):
@@ -121,6 +140,17 @@ class CsectionForm(forms.Form):
     M1 = forms.FloatField(label = "端部モーメント(大, N.mm)", widget = widget, required = True, initial=0)
     M2 = forms.FloatField(label = "端部モーメント(小, N.mm)", widget = widget, required = True, initial=0)
     doublecurve = forms.BooleanField(label = '曲げモーメントが複曲率', required = False,initial = 0, widget = forms.CheckboxInput(check_test=wrap_boolean_check))
+    
+    def clean(self):
+        data = super().clean()
+        H = float(data['H'])
+        B = float(data['B'])
+        th = float(data['th'])
+        tb = float(data['tb'])
+        if B < th or H < tb:
+            raise ValidationError("厚みは高さ,幅より小さくしてください")
+        return data
+
 
 
 class AnysectionForm(forms.Form):
